@@ -1,0 +1,65 @@
+# Environment
+.env
+.env.local
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Data and Models (reproducible from code)
+data/*
+!data/.gitkeep
+models/*
+!models/.gitkeep
+tests/data/*
+!tests/data/.gitkeep
+tests/models/*
+!tests/models/.gitkeep
+
+# Artifacts
+*.log
+*.pot
+*.mo
+*.csv
+*.pkl
+*.joblib
+
