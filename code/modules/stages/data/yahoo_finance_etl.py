@@ -9,17 +9,19 @@ import pandas as pd
 class YahooFinanceETL:
     def __init__(self, ticker: str = "^GSPC", start_date: str = "2010-01-01",
                  end_date: str = "2023-12-31", dataset_name: str = "sp500_dataset",
-                 data_path: str = "data/sp500/processed", **kwargs):
+                 data_path: str = "data/sp500/processed", interval: str = "1d", **kwargs):
         self.ticker = ticker
         self.start_date = start_date
         self.end_date = end_date
         self.dataset_name = dataset_name
         self.data_path = Path(data_path)
+        self.interval = interval  # "1d" daily, "1wk" weekly, "1mo" monthly
 
     def run(self, X=None, y=None, metadata=None, **kwargs):
         metadata = metadata or {}
         # Download data
-        df = yf.download(self.ticker, start=self.start_date, end=self.end_date, progress=False)
+        df = yf.download(self.ticker, start=self.start_date, end=self.end_date,
+                         interval=self.interval, progress=False)
         # Flatten MultiIndex columns if present
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)

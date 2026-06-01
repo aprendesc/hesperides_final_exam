@@ -9,8 +9,9 @@ pipeline:
     - class: "code.modules.stages.data.yahoo_finance_etl.YahooFinanceETL"
       params:
         ticker: "^GSPC"
-        start_date: "2010-01-01"
+        start_date: "1990-01-01"
         end_date: "2023-12-31"
+        interval: "1wk"          # weekly bars — SMA momentum has documented signal at this resolution
         dataset_name: "sp500_dataset"
         data_path: "data/sp500/processed"
 
@@ -24,7 +25,8 @@ pipeline:
     class: "code.modules.stages.transforms.time_series_xy_split.TimeSeriesXYSplit"
     params:
       target: "binary_direction_1d"
-      sma_window: 20
+      sma_window: 10             # 10-week (≈ 2.5 months) momentum — documented trend signal
+      feature_groups: ["sma"]
 
   validation_split:
     class: "code.modules.stages.transforms.temporal_validation_split.TemporalValidationSplit"
@@ -42,14 +44,12 @@ pipeline:
       C: 1.0
       max_iter: 1000
 
-
   metrics:
     class: "code.modules.stages.metrics.metrics_sharpe.MetricsSharpe"
     params:
-      trading_days_per_year: 252
+      trading_days_per_year: 52  # weekly bars → 52 periods/year for Sharpe annualisation
       signal_mode: "classification"
 
   model_loader:
     class: "code.modules.stages.loaders.basic_model_loader.BasicModelLoader"
     params: {}
-
